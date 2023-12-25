@@ -1,4 +1,4 @@
-name: Pull Changes from Another Repository
+name: Sync README from Another Repository
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main  # İzlemek istediğiniz ana branch'i burada belirtin
 
 jobs:
-  pull-changes:
+  sync-readme:
     runs-on: ubuntu-latest
     
     steps:
@@ -21,5 +21,8 @@ jobs:
         git fetch other-repo
         git checkout -b changes-from-other-repo other-repo/main  # İzlemek istediğiniz branch'i belirtin
         git checkout main
-        git merge changes-from-other-repo
+        cp other-repo/README.md ./NEW_README.md  # Diğer README.md dosyasını kopyalama
+        # NEW_README.md dosyasını istediğiniz ad ve konuma göre güncelleme işlemleri
+        git add NEW_README.md
+        git commit -m "Sync README from another repository"
         git push origin main
