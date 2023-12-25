@@ -16,7 +16,7 @@ jobs:
       run: |
         git config --global user.email "github-actions@users.noreply.github.com"
         git config --global user.name "GitHub Actions"
-        git remote add other-repo https://github.com/Bpolat0/WebhookTest1.git  # Değişiklikleri almak istediğiniz depo
+        git remote add other-repo https://github.com/Bpolat0/WebhookTest.git  # Değişiklikleri almak istediğiniz depo
         git fetch other-repo
         git checkout -b changes-from-other-repo other-repo/main  # İzlemek istediğiniz branch'i belirtin
         git checkout main
