@@ -13,18 +13,18 @@ jobs:
       uses: actions/checkout@v2
       with:
         repository: 'Bpolat0/WebhookTest1'
-        token: ${{ secrets.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N }}
+        token: ${{ secrets.YOUR_SECRET }}
 
     - name: Checkout other_repo
       uses: actions/checkout@v2
       with:
         repository: 'Bpolat0/WebhookTest'
-        path: 'WebhookTest'
+        path: 'other_repo'
 
     - name: Update README
       run: |
         # Get the specific line from other_repo's README.md
-        line=$(sed -n 5p WebhookTest/README.md)  # Change 5 to the line number you want
+        line=$(sed -n 5p other_repo/README.md)  # Change 5 to the line number you want
 
         # Replace the specific line in my_repo's README.md
         sed -i "5s/.*/$line/" README.md  # Change 5 to the line number you want
