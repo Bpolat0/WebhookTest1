@@ -1,7 +1,7 @@
 name: Sync README from Another Repository
 
 on:
-  commit_comment: # Commit işlemini tetikleyici olarak kullan
+  push:
     branches:
       - main  # İzlemek istediğiniz ana branch'i burada belirtin
 jobs:
