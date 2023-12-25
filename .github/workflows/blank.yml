@@ -1,30 +1,30 @@
 name: Update README
 
 on:
-  repository_dispatch:
-    types: [readme_updated]
+  schedule:
+    - cron: '* * * * *'  # Run this workflow every hour
 
 jobs:
   update-readme:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout my_repo
+    - name: Checkout repo
       uses: actions/checkout@v2
       with:
         repository: 'Bpolat0/WebhookTest1'
-        token: ${{ secrets.YOUR_SECRET }}
+        token: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Checkout other_repo
-      uses: actions/checkout@v2
-      with:
-        repository: 'Bpolat0/WebhookTest'
-        path: 'other_repo'
+    - name: Get README content from other repo
+      id: get-readme
+      run: |
+        content=$(curl -H "Accept: application/vnd.github.VERSION.raw" https://api.github.com/repos/Bpolat0/WebhookTest/readme)
+        echo "::set-output name=content::$content"
 
     - name: Update README
       run: |
-        # Get the specific line from other_repo's README.md
-        line=$(sed -n 5p other_repo/README.md)  # Change 5 to the line number you want
+        # Get the specific line from other repo's README.md
+        line=$(echo "${{ steps.get-readme.outputs.content }}" | sed -n 5p)  # Change 5 to the line number you want
 
         # Replace the specific line in my_repo's README.md
         sed -i "5s/.*/$line/" README.md  # Change 5 to the line number you want
