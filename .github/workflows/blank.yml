@@ -1,27 +1,37 @@
-name: Sync README from Another Repository
+name: Update README
 
 on:
   repository_dispatch:
-    types: [readme-updated]  # Karşı tarafın README.md dosyası değiştirildiğinde tetiklenecek olay
+    types: [readme_updated]
 
 jobs:
-  sync-readme:
+  update-readme:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: Checkout repository
+    - name: Checkout my_repo
       uses: actions/checkout@v2
-      
-    - name: Pull changes from another repository
+      with:
+        repository: 'Bpolat0/WebhookTest1'
+        token: ${{ secrets.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N }}
+
+    - name: Checkout other_repo
+      uses: actions/checkout@v2
+      with:
+        repository: 'Bpolat0/WebhookTest'
+        path: 'WebhookTest'
+
+    - name: Update README
       run: |
-        git config --global user.email "github-actions@users.noreply.github.com"
-        git config --global user.name "GitHub Actions"
-        git remote add other-repo https://github.com/Bpolat0/WebhookTest.git  # Değişiklikleri almak istediğiniz depo
-        git fetch other-repo
-        git checkout -b changes-from-other-repo other-repo/main  # İzlemek istediğiniz branch'i belirtin
-        git checkout main
-        cp other-repo/README.md ./NEW_README.md  # Diğer README.md dosyasını kopyalama
-        # NEW_README.md dosyasını istediğiniz ad ve konuma göre güncelleme işlemleri
-        git add NEW_README.md
-        git commit -m "Sync README from another repository"
-        git push origin main
+        # Get the specific line from other_repo's README.md
+        line=$(sed -n 5p WebhookTest/README.md)  # Change 5 to the line number you want
+
+        # Replace the specific line in my_repo's README.md
+        sed -i "5s/.*/$line/" README.md  # Change 5 to the line number you want
+
+    - name: Commit and push
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git commit -am "Update README.md"
+        git push
