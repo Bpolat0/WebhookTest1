@@ -1,9 +1,9 @@
 name: Sync README from Another Repository
 
 on:
-  push:
-    branches:
-      - main  # İzlemek istediğiniz ana branch'i burada belirtin
+  repository_dispatch:
+    types: [readme-updated]  # Karşı tarafın README.md dosyası değiştirildiğinde tetiklenecek olay
+
 jobs:
   sync-readme:
     runs-on: ubuntu-latest
