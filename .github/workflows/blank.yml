@@ -2,7 +2,7 @@ name: Update README
 
 on:
   schedule:
-    - cron: '* * * * *'  # Run this workflow every hour
+    - cron: '* * * * *'  # Run this workflow every minute
 
 jobs:
   update-readme:
@@ -19,12 +19,12 @@ jobs:
       id: get-readme
       run: |
         content=$(curl -H "Accept: application/vnd.github.VERSION.raw" https://api.github.com/repos/Bpolat0/WebhookTest/readme)
-        echo "::set-output name=content::$content"
+        echo "content=$content" >> $GITHUB_ENV
 
     - name: Update README
       run: |
         # Get the specific line from other repo's README.md
-        line=$(echo "${{ steps.get-readme.outputs.content }}" | sed -n 5p)  # Change 5 to the line number you want
+        line=$(echo "${{ env.content }}" | sed -n 5p)  # Change 5 to the line number you want
 
         # Replace the specific line in my_repo's README.md
         sed -i "5s/.*/$line/" README.md  # Change 5 to the line number you want
