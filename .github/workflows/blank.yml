@@ -1,10 +1,9 @@
 name: Sync README from Another Repository
 
 on:
-  push:
+  commit_comment: # Commit işlemini tetikleyici olarak kullan
     branches:
       - main  # İzlemek istediğiniz ana branch'i burada belirtin
-
 jobs:
   sync-readme:
     runs-on: ubuntu-latest
